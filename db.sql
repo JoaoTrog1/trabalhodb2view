@@ -79,11 +79,18 @@ INSERT INTO tbproduto (nome_produto, id_fornecedor, valor_produto) VALUES
 
 /* Inserção na tabela pedidos */
 INSERT INTO tbpedido (data_pedido, id_produto, id_cliente) VALUES
-('2024-08-01', 1, 1),  -- Carlos Silva
-('2024-08-02', 2, 2),  -- Maria Oliveira
-('2024-08-03', 3, 3),  -- João Pereira
-('2024-08-04', 4, 4),  -- Ana Costa
-('2024-08-05', 5, 5),  -- Fernanda Almeida
-('2024-08-06', 6, 6),  -- Ricardo Santos
-('2024-08-07', 7, 1),  -- Carlos Silva (segundo pedido)
-('2024-08-08', 8, 2);  -- Maria Oliveira (segundo pedido)
+('2024-08-01', 1, 1),  /* Carlos Silva */
+('2024-08-02', 2, 2),  /* Maria Oliveira */
+('2024-08-03', 3, 3),  /* João Pereira */
+('2024-08-04', 4, 4),  /* Ana Costa */
+('2024-08-05', 5, 5),  /* Fernanda Almeida */
+('2024-08-06', 6, 6),  /* Ricardo Santos */
+('2024-08-07', 7, 1),  /* Carlos Silva */
+('2024-08-08', 8, 2);  /* Maria Oliveira */
+
+
+
+
+
+
+
