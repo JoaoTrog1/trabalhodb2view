@@ -1,57 +1,57 @@
--- Criação do banco de dados
+/* Criação do banco de dados */
 DROP DATABASE lojaExView;
 CREATE DATABASE lojaExView;
 USE lojaExView;
 
--- Criação da tabela de clientes
+/* Criação da tabela de clientes */
 CREATE TABLE tbcliente (
     id_cliente INT AUTO_INCREMENT,
-    nome_cliente VARCHAR(100) NOT NULL,
-    email_cliente VARCHAR(100) NOT NULL,
+    nome_cliente VARCHAR(100),
+    email_cliente VARCHAR(100),
     cidade_cliente VARCHAR(50),
     CONSTRAINT pk_tbcliente PRIMARY KEY(id_cliente)
 )ENGINE=INNODB;
 
---Criaçao da tabela fornecedor
+/* Criaçao da tabela fornecedor */
 CREATE TABLE tbfornecedor (
     id_fornecedor INT AUTO_INCREMENT,
-    nome_fornecedor VARCHAR(100) NOT NULL,
-    cnpj_fornecedor VARCHAR(20) NOT NULL UNIQUE,
+    nome_fornecedor VARCHAR(100),
+    cnpj_fornecedor VARCHAR(20) UNIQUE,
     CONSTRAINT pk_tbfornecedor PRIMARY KEY(id_fornecedor)
 )ENGINE=INNODB;
 
--- Criação da tabela de produtos
+/* Criação da tabela de produtos */
 CREATE TABLE tbproduto (
     id_produto INT AUTO_INCREMENT,
-    nome_produto VARCHAR(100) NOT NULL,
+    nome_produto VARCHAR(100),
     id_fornecedor INT NOT NULL,
+    valor_produto DOUBLE,
     CONSTRAINT pk_tbproduto PRIMARY KEY(id_produto),
     CONSTRAINT fk_tbproduto_tbfornecedor FOREIGN KEY(id_fornecedor) REFERENCES tbfornecedor(id_fornecedor)
+
+    ON DELETE CASCADE ON UPDATE CASCADE 
 )ENGINE=INNODB;
-INSERT INTO tbproduto 
 
 
--- Criação da tabela de pedidos
-CREATE TABLE pedido (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT,
-    produto VARCHAR(100) NOT NULL,
-    valor DECIMAL(10, 2) NOT NULL,
+
+/* Criação da tabela de pedidos */
+CREATE TABLE tbpedido (
+    id_pedido INT AUTO_INCREMENT,
     data_pedido DATE,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
-);
-INSERT INTO pedido (cliente_id, produto, valor, data_pedido) VALUES
-(1, 'Produto A', 100.00, '2024-01-15'),
-(2, 'Produto B', 150.00, '2024-01-16'),
-(1, 'Produto C', 200.00, '2024-02-01');
+    id_produto INT NOT NULL,
+    id_cliente INT NOT NULL,
+    CONSTRAINT pk_tbpedido PRIMARY KEY(id_pedido),
+    CONSTRAINT fk_tbpedido_tbcliente FOREIGN KEY (id_cliente) REFERENCES tbcliente(id_cliente),
+    CONSTRAINT fk_tbpedido_tbproduto FOREIGN KEY (id_produto) REFERENCES tbproduto(id_produto)
 
-CREATE TABLE produto (
-    id INT AUTO_INCREMENT PRIMARY KEY
-)
+    ON DELETE CASCADE ON UPDATE CASCADE 
+)ENGINE=INNODB;
 
 
 
--- Inserção na tabela clientes
+
+
+/* Inserção na tabela clientes */
 INSERT INTO tbcliente (nome_cliente, email_cliente, cidade_cliente) VALUES
 ('Carlos Silva', 'carlos.silva@example.com', 'São Paulo'),
 ('Maria Oliveira', 'maria.oliveira@example.com', 'Rio de Janeiro'),
@@ -60,7 +60,7 @@ INSERT INTO tbcliente (nome_cliente, email_cliente, cidade_cliente) VALUES
 ('Fernanda Almeida', 'fernanda.almeida@example.com', 'Curitiba'),
 ('Ricardo Santos', 'ricardo.santos@example.com', 'Recife');
 
--- Inserção na tabela fornecedor
+/* Inserção na tabela fornecedor */
 INSERT INTO tbfornecedor (nome_fornecedor, cnpj_fornecedor) VALUES
 ('Fornecedor Alpha Ltda', '01.234.567/0001-89'),
 ('Fornecedor Beta S.A.', '23.456.789/0001-01'),
