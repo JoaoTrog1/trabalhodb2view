@@ -1,8 +1,25 @@
-
 /* retornar todos os pedidos */
-CREATE VIEW vw_pedidos AS "View"
-    SELECT data_pedido
+CREATE VIEW vw_pedidos AS
+    SELECT id_pedido, data_pedido, id_cliente
     FROM tbpedido;
+
+
+/*INSERT*/
+INSERT INTO vw_pedidos (data_pedido, id_cliente)
+VALUES ('2024-08-07', 6);
+
+/*UPDATE*/
+UPDATE vw_pedidos
+SET data_pedido = '2024-08-08'
+WHERE data_pedido = '2024-08-07';
+
+
+/*DELETE*/
+DELETE FROM vw_pedidos
+WHERE data_pedido = '2024-08-08';
+
+/*RENAME*/
+RENAME TABLE vw_pedidos TO vw_pedido;
 
 
 /* atualizar uma view */
@@ -20,6 +37,7 @@ UPDATE tbpedidotbproduto
 SET valor_produto = 40
 WHERE id_produto = 8;
 
+
 SELECT * FROM vw_pedidos;
 
 /*Usando views para formatar dados*/
@@ -34,8 +52,6 @@ CREATE OR REPLACE VIEW vw_pedidos_data AS
     JOIN tbpedidotbproduto PP ON P.id_pedido = PP.id_pedido
     JOIN tbproduto PD ON PP.id_produto = PD.id_produto
     GROUP BY P.id_pedido;
-
-
 
 
 
