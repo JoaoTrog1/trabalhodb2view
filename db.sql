@@ -26,25 +26,37 @@ CREATE TABLE tbproduto (
     nome_produto VARCHAR(100),
     id_fornecedor INT NOT NULL,
     valor_produto DOUBLE,
+    quantidade_produto INT,
     CONSTRAINT pk_tbproduto PRIMARY KEY(id_produto),
     CONSTRAINT fk_tbproduto_tbfornecedor FOREIGN KEY(id_fornecedor) REFERENCES tbfornecedor(id_fornecedor)
 
     ON DELETE CASCADE ON UPDATE CASCADE 
 )ENGINE=INNODB;
 
-
-
 /* Criação da tabela de pedidos */
 CREATE TABLE tbpedido (
     id_pedido INT AUTO_INCREMENT,
     data_pedido DATE,
-    id_produto INT NOT NULL,
     id_cliente INT NOT NULL,
     CONSTRAINT pk_tbpedido PRIMARY KEY(id_pedido),
-    CONSTRAINT fk_tbpedido_tbcliente FOREIGN KEY (id_cliente) REFERENCES tbcliente(id_cliente),
-    CONSTRAINT fk_tbpedido_tbproduto FOREIGN KEY (id_produto) REFERENCES tbproduto(id_produto)
+    CONSTRAINT fk_tbpedido_tbcliente FOREIGN KEY (id_cliente) REFERENCES tbcliente(id_cliente)
 
     ON DELETE CASCADE ON UPDATE CASCADE 
+)ENGINE=INNODB;
+
+
+/*Criação da tabela tbpedidotbroduto para referenciar um pedido aos produtos */
+CREATE TABLE tbpedidotbproduto (
+    id_tbpedidotbproduto INT AUTO_INCREMENT,
+    id_pedido INT NOT NULL,
+    id_produto INT NOT NULL,
+    quantidade_produto INT,
+    valor_produto DOUBLE,
+    CONSTRAINT pk_tbpedidotbproduto PRIMARY KEY(id_tbpedidotbproduto),
+    CONSTRAINT fk_tbpedidotbproduto_tbpedido FOREIGN KEY(id_pedido) REFERENCES tbpedido(id_pedido),
+    CONSTRAINT fk_tbpedidotbproduto_tbproduto FOREIGN KEY (id_produto) REFERENCES tbproduto(id_produto)
+
+    ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=INNODB;
 
 
@@ -67,30 +79,32 @@ INSERT INTO tbfornecedor (nome_fornecedor, cnpj_fornecedor) VALUES
 ('Fornecedor Gama Comércio', '34.567.890/0001-12');
 
 /* Inserção na tabela produtos */
-INSERT INTO tbproduto (nome_produto, id_fornecedor, valor_produto) VALUES
-('Smartphone X200', 1, 599.99),
-('Notebook UltraPro 15', 1, 1299.49),
-('Cadeira Ergonômica Pro', 2, 219.89),
-('Mesa de Escritório Compacta', 2, 159.99),
-('Fone de Ouvido Bluetooth 4.0', 3, 89.00),
-('Monitor LED 24"', 3, 179.75),
-('Teclado Mecânico RGB', 1, 89.50),
-('Mouse Sem Fio Ergonomic', 3, 45.30);
+INSERT INTO tbproduto (nome_produto, id_fornecedor, valor_produto, quantidade_produto) VALUES
+('Smartphone X200', 1, 599.99, 10), 
+('Notebook UltraPro 15', 1, 1299.49, 10),
+('Cadeira Ergonômica Pro', 2, 219.89, 10),
+('Mesa de Escritório Compacta', 2, 159.99, 10),
+('Fone de Ouvido Bluetooth 4.0', 3, 89.00, 10),
+('Monitor LED 24"', 3, 179.75, 10),
+('Teclado Mecânico RGB', 1, 89.50, 10),
+('Mouse Sem Fio Ergonomic', 3, 45.30, 10);
 
 /* Inserção na tabela pedidos */
-INSERT INTO tbpedido (data_pedido, id_produto, id_cliente) VALUES
-('2024-08-01', 1, 1),  /* Carlos Silva */
-('2024-08-02', 2, 2),  /* Maria Oliveira */
-('2024-08-03', 3, 3),  /* João Pereira */
-('2024-08-04', 4, 4),  /* Ana Costa */
-('2024-08-05', 5, 5),  /* Fernanda Almeida */
-('2024-08-06', 6, 6),  /* Ricardo Santos */
-('2024-08-07', 7, 1),  /* Carlos Silva */
-('2024-08-08', 8, 2);  /* Maria Oliveira */
+INSERT INTO tbpedido (data_pedido, id_cliente) VALUES
+('2024-08-01', 1), 
+('2024-08-02', 2), 
+('2024-08-03', 3),  
+('2024-08-04', 4),  
+('2024-08-05', 5),  
+('2024-08-06', 6); 
 
-
-
-
-
-
-
+/* Inserção na tabela tbpedidotbproduto */
+INSERT INTO tbpedidotbproduto (id_produto, id_pedido, quantidade_produto, valor_produto) VALUES
+(3, 1, 2, 219.89),
+(1, 1, 1, 599.99),
+(2, 1, 5, 1299.49),
+(8, 2, 2, 45.30),
+(7, 3, 1, 89.50),
+(5, 4, 1, 89.00),
+(6, 5, 2, 179.75),
+(4, 6, 3, 159.99);
